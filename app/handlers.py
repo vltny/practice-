@@ -14,41 +14,41 @@ async def cmd_help(message: Message):
     await message.answer('Добро пожаловать в бота КТЗ', reply_markup=kb.main)
 
 
-@router.message(F.text == 'Новости')
+@router.message(F.text == '🔍 Новости')
 async def handle_message_news(message: Message):
     await message.answer('Выберите тип отображения', reply_markup=kb.news)
 
 
-@router.message(F.text == 'Меню столовой')
+@router.message(F.text == '🍽 Меню столовой')
 async def handle_message_menu(message: Message):
     file = FSInputFile('data/test.pdf')
     await message.answer_document(document=file, caption='Меню столовой')
     await message.answer(updateMenu())
 
 
-@router.message(F.text == 'Транспорт')
+@router.message(F.text == '🚍 Транспорт')
 async def handle_message_transport(message: Message):
     await message.answer("Транспорт в разработке")
 
 
-@router.message(F.text == 'Соц. программы')
+@router.message(F.text == '🪪 Соц. программы')
 async def handle_message_social(message: Message):
     await message.answer("Социальные программы в разработке")
 
 
-@router.message(F.text == 'Опрос')
+@router.message(F.text == '📊 Опрос')
 async def handle_message_survey(message: Message):
     await message.answer("Опросы в разработке")
 
 
-@router.message(F.text == 'Вопрос к руководству')
+@router.message(F.text == '📤 Задать вопрос')
 async def handle_message_ask(message: Message):
     await message.answer("Вопросы к руководству в разработке")
 
 
 
 
-@router.message(F.text == 'Последние новости')
+@router.message(F.text == '🚀 Последние новости')
 async def handle_message_last_news(message: Message):
     user_id = message.from_user.id
     user_state[user_id] = {'waiting_number': True,
@@ -56,12 +56,12 @@ async def handle_message_last_news(message: Message):
     await message.answer('Сколько новостей вы хотите посмотреть?')
 
 
-@router.message(F.text == 'Категории')
+@router.message(F.text == '🧩 Категории')
 async def handle_message_categories(message: Message):
     await message.answer('Выберите категорию', reply_markup=kb.newsCategories)
 
 
-@router.message(F.text == 'Праздники')
+@router.message(F.text == '🎉 Праздники')
 async def handle_news_holidays(message: Message):
     user_id = message.from_user.id
     user_state[user_id] = {'waiting_number': True,
@@ -69,7 +69,7 @@ async def handle_news_holidays(message: Message):
     await message.answer('Сколько новостей вы хотите посмотреть?')
 
 
-@router.message(F.text == 'Жизнь завода')
+@router.message(F.text == '🏭 Жизнь завода')
 async def handle_news_life(message: Message):
     user_id = message.from_user.id
     user_state[user_id] = {'waiting_number': True,
@@ -77,7 +77,7 @@ async def handle_news_life(message: Message):
     await message.answer('Сколько новостей вы хотите посмотреть?')
 
 
-@router.message(F.text == 'Вакансии')
+@router.message(F.text == '💼 Вакансии')
 async def handle_news_vacancies(message: Message):
     user_id = message.from_user.id
     user_state[user_id] = {'waiting_number': True,
@@ -86,7 +86,7 @@ async def handle_news_vacancies(message: Message):
     await message.answer('Сколько новостей вы хотите посмотреть?')
 
 
-@router.message(F.text == 'Сотрудники')
+@router.message(F.text == '👨‍🔧 Сотрудники')
 async def handle_news_employees(message: Message):
     user_id = message.from_user.id
     user_state[user_id] = {'waiting_number': True,
@@ -94,7 +94,7 @@ async def handle_news_employees(message: Message):
     await message.answer('Сколько новостей вы хотите посмотреть?')
 
 
-@router.message(F.text == 'Изобретения')
+@router.message(F.text == '🦾 Изобретения')
 async def handle_news_inventions(message: Message):
     user_id = message.from_user.id
     user_state[user_id] = {'waiting_number': True,
@@ -102,7 +102,7 @@ async def handle_news_inventions(message: Message):
     await message.answer('Сколько новостей вы хотите посмотреть?')
 
 
-@router.message(F.text == 'Достижения')
+@router.message(F.text == '🏆 Достижения')
 async def handle_news_achievements(message: Message):
     user_id = message.from_user.id
     user_state[user_id] = {'waiting_number': True,
@@ -117,6 +117,9 @@ async def handle_news_number(message: Message):
         return
 
     number = int(message.text)
+    if number < 1:
+        await message.answer('Неверное число')
+        return
     user_state[user_id]['number'] = number
     user_state[user_id]['waiting_number'] = False
 
