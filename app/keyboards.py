@@ -18,6 +18,10 @@ newsCategories = ReplyKeyboardMarkup(keyboard=[
     [KeyboardButton(text='◀️ Назад')]
 ], resize_keyboard=True)
 
+menu = ReplyKeyboardMarkup(keyboard=[
+    [KeyboardButton(text='🗓 Меню на неделю'), KeyboardButton(text='◀️ Назад')]
+], resize_keyboard=True)
+
 start = ReplyKeyboardMarkup(keyboard=[
     [KeyboardButton(text='У меня есть табельный номер')],
     [KeyboardButton(text='У меня нет табельного номера')]

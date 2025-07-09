@@ -100,19 +100,26 @@ async def handle_message_news(message: Message, state: FSMContext):
 async def handle_message_menu(message: Message, state: FSMContext):
     if not await check_auth(message, state):
         return
-    file = FSInputFile('data/Menu.pdf')
-    await message.answer_document(document=file, caption='Меню столовой')
     menu_lines = updateMenu()
     text = ""
 
     for line in menu_lines:
         if (len(text) + len(line) > 4000) or ('|' in line):
+            line = ''
             await message.answer(text, parse_mode="HTML")
             text = ""
         text += line
 
     if text:
-        await message.answer(text, parse_mode="HTML")
+        await message.answer(text, parse_mode="HTML", reply_markup=kb.menu)
+
+
+@router.message(F.text == '🗓 Меню на неделю')
+async def handle_message_transport(message: Message, state: FSMContext):
+    if not await check_auth(message, state):
+        return
+    file = FSInputFile('data/Menu.pdf')
+    await message.answer_document(document=file, caption='Меню столовой')
 
 
 @router.message(F.text == '🚍 Транспорт')

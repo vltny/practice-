@@ -13,10 +13,13 @@ def updateMenu():
         2: "ср",
         3: "чт",
         4: "пт",
-        5: "Суббота",
-        6: "Воскресенье"
+        5: "сб",
+        6: "вс"
     }
     today = weekday_map[datetime.now().weekday()]
+
+    if today == "сб" or today == "вс":
+        today = 'пн'
 
     if cached_menu and cached_day == today:
         return cached_menu
@@ -59,8 +62,6 @@ def updateMenu():
                 menu_lines.append(f"<i>({item[0].value})</i></blockquote>\n\n")
             isFood = False
 
-    print(cached_menu)
     cached_menu = ''.join(menu_lines) + '</blockquote>'
-    print(cached_menu)
     cached_day = today
     return cached_menu
