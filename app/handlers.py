@@ -21,9 +21,19 @@ async def handle_message_news(message: Message):
 
 @router.message(F.text == '🍽 Меню столовой')
 async def handle_message_menu(message: Message):
-    file = FSInputFile('data/test.pdf')
+    file = FSInputFile('data/Menu.pdf')
     await message.answer_document(document=file, caption='Меню столовой')
-    await message.answer(updateMenu())
+    menu_lines = updateMenu()
+    text = ""
+    for line in menu_lines:
+        if ((len(text) + len(line) > 4000) or ('|' in line)):
+            line = line.replace('|', '')
+            await message.answer(text, parse_mode="HTML")
+            text = ""
+        text += line
+
+    if text:
+        await message.answer(text, parse_mode="HTML")
 
 
 @router.message(F.text == '🚍 Транспорт')
@@ -45,7 +55,9 @@ async def handle_message_survey(message: Message):
 async def handle_message_ask(message: Message):
     await message.answer("Вопросы к руководству в разработке")
 
-
+@router.message(F.text == '◀️ Назад')
+async def handle_message_back(message: Message):
+    await message.answer("Возврат в меню", reply_markup=kb.main)
 
 
 @router.message(F.text == '🚀 Последние новости')
