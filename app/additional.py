@@ -26,21 +26,41 @@ def updateMenu():
 
     menu_lines = []
 
-    for row in ws.iter_rows(min_row=2):
-        name = row[1].value
-        price = row[2].value
-
-        if str(name).isupper() and price is None:
-            menu_lines.append(f"|<b>{name.strip()}</b>\n")
+    isFood = False
+    cnt = 0
+    for row in ws.rows:
+        if cnt < 1:
+            cnt += 1
+            menu_lines.append(row[1].value)
             continue
 
-        if str(name).islower() and price is None:
-            menu_lines.append(f"{name.strip()}")
-            continue
+        item = (row[1], row[2])
 
-        price_str = f"💰 {int(price)} ₽" if price else ""
-        menu_lines.append(f"\n<blockquote>{str(name)}\t{price_str}</blockquote>")
+        if item[1].value:
+            # Блюдо
+            if isFood:
+                menu_lines.append(f"</blockquote>\n<blockquote><b>{item[0].value} 💰 {str(item[1].value)}₽</b>\n")
+            else:
+                menu_lines.append(f"<blockquote><b>{item[0].value} 💰 {str(item[1].value)}₽</b>\n")
+            isFood = True
+            pass
+        elif item[0].fill.start_color.theme == 9:
+            # Заголовок
+            if isFood:
+                menu_lines.append(f"</blockquote>\n\n|<u><b>{item[0].value}</b></u>\n\n")
+            else:
+                menu_lines.append(f"|<u><b>{item[0].value}</b></u>\n\n")
+            isFood = False
+        else:
+            # Состав
+            if not isFood:
+                menu_lines.append(f"<i>({item[0].value})</i>")
+            else:
+                menu_lines.append(f"<i>({item[0].value})</i></blockquote>\n\n")
+            isFood = False
 
-    cached_menu = "\n".join(menu_lines)
+    print(cached_menu)
+    cached_menu = ''.join(menu_lines) + '</blockquote>'
+    print(cached_menu)
     cached_day = today
     return cached_menu

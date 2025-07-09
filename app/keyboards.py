@@ -1,4 +1,4 @@
-from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
+from aiogram.types import KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardRemove
 
 main = ReplyKeyboardMarkup(keyboard=[
     [KeyboardButton(text='🔍 Новости'), KeyboardButton(text='🍽 Меню столовой')],
@@ -16,4 +16,9 @@ newsCategories = ReplyKeyboardMarkup(keyboard=[
     [KeyboardButton(text='💼 Вакансии'), KeyboardButton(text='👨‍🔧 Сотрудники')],
     [KeyboardButton(text='🦾 Изобретения'), KeyboardButton(text='🏆 Достижения')],
     [KeyboardButton(text='◀️ Назад')]
+], resize_keyboard=True)
+
+start = ReplyKeyboardMarkup(keyboard=[
+    [KeyboardButton(text='У меня есть табельный номер')],
+    [KeyboardButton(text='У меня нет табельного номера')]
 ], resize_keyboard=True)
